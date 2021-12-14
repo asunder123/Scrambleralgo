@@ -1,0 +1,61 @@
+{
+	"title": "Moving a file from under our feet is forgivable",
+	"description": "Tests a Scrambler python application",
+	"contributions": {
+		"reliability": "high",
+		"availability": "high"
+	},
+               "controls":[    {
+        "type": "probe",
+	"name": "tracing",
+        "scope": "before",
+        "automatic": true,
+        "provider": {
+            "type": "python",
+            "module": "chaosstuff.control"
+        }
+    }],
+
+	"steady-state-hypothesis": {
+		"title": "Validate Steady state",
+		"probes": [
+                          {
+                        "name": "scramble",
+                        "type": "probe",
+                        "tolerance":10,
+			"provider": {
+                                "type": "python",
+                                "module": "scramble.py",
+                                "func": "steadystate",
+				"arguments":
+				{
+
+				"h": 10
+				}
+
+                        }
+                }]
+	},
+
+	"method": [
+
+		{
+			"type": "action",
+			"name": "test-turtle-rt-module",
+			"provider": {
+				"type": "python",
+				"module": "scramble",
+				"func": "getPixels",
+				"arguments": {
+					"img":"Simul1.png"
+				}
+			},
+			"pauses": {
+				"after": 10
+			}
+		},
+		{
+			"ref": "scramble"
+		}
+	]
+}
